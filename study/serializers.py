@@ -35,6 +35,7 @@ class DocumentSerializer(serializers.ModelSerializer):
     class Meta:
         model = Document
         fields = ("slug", "title", "filename", "version", "pages", "kind", "notes")
+        extra_kwargs = {"pages": {"max_value": 32767}}
 
 
 class ExcerptSerializer(serializers.ModelSerializer):
@@ -43,6 +44,7 @@ class ExcerptSerializer(serializers.ModelSerializer):
     class Meta:
         model = Excerpt
         fields = ("reference", "page", "text", "document")
+        extra_kwargs = {"page": {"max_value": 32767}}
 
 
 class TopicSerializer(serializers.ModelSerializer):
@@ -51,6 +53,7 @@ class TopicSerializer(serializers.ModelSerializer):
     class Meta:
         model = Topic
         fields = ("slug", "name", "discipline", "position")
+        extra_kwargs = {"position": {"max_value": 32767}}
 
 
 class PublicOptionSerializer(serializers.Serializer):
@@ -70,6 +73,9 @@ class QuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ("id", "key", "revision", "topic", "prompt", "options", "style", "last_correct", "source_label")
+        # PositiveSmallIntegerField tem limites diferentes em SQLite e PostgreSQL.
+        # O contrato público adota o intervalo portátil, inclusive em desenvolvimento.
+        extra_kwargs = {"revision": {"max_value": 32767}}
 
     def get_source_label(self, question) -> str:
         return "Questão autoral · Estatuto GMS" if question.topic.discipline.slug == "estatuto-gms" else "Questão autoral"

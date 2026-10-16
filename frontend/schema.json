@@ -483,9 +483,8 @@ components:
           maxLength: 120
         pages:
           type: integer
-          maximum: 9223372036854775807
+          maximum: 32767
           minimum: 0
-          format: int64
         kind:
           $ref: '#/components/schemas/KindEnum'
         notes:
@@ -506,9 +505,8 @@ components:
           maxLength: 160
         page:
           type: integer
-          maximum: 9223372036854775807
+          maximum: 32767
           minimum: 1
-          format: int64
         text:
           type: string
           title: Trecho conferido
@@ -697,9 +695,8 @@ components:
           pattern: ^[-a-zA-Z0-9_]+$
         revision:
           type: integer
-          maximum: 9223372036854775807
+          maximum: 32767
           minimum: 0
-          format: int64
           default: 1
         topic:
           $ref: '#/components/schemas/Topic'
@@ -798,9 +795,8 @@ components:
           type: string
         position:
           type: integer
-          maximum: 9223372036854775807
+          maximum: 32767
           minimum: 0
-          format: int64
       required:
       - discipline
       - name

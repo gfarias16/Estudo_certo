@@ -1,5 +1,13 @@
 .venv
 .local
+.git
+.github
+.agents
+.codex
+.aws
+.ruff_cache
+.pytest_cache
+coverage
 .env*
 docs
 scripts/*

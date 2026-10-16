@@ -217,7 +217,6 @@ export interface components {
             filename: string;
             /** Versão */
             version: string;
-            /** Format: int64 */
             pages: number;
             kind: components["schemas"]["KindEnum"];
             notes?: string;
@@ -225,7 +224,6 @@ export interface components {
         Excerpt: {
             /** Artigo/referência */
             reference: string;
-            /** Format: int64 */
             page: number;
             /** Trecho conferido */
             text: string;
@@ -304,10 +302,7 @@ export interface components {
         Question: {
             readonly id: number;
             key: string;
-            /**
-             * Format: int64
-             * @default 1
-             */
+            /** @default 1 */
             revision: number;
             topic: components["schemas"]["Topic"];
             /** Enunciado */
@@ -345,7 +340,6 @@ export interface components {
             /** Nome */
             name: string;
             discipline: string;
-            /** Format: int64 */
             position?: number;
         };
         TopicStats: {
