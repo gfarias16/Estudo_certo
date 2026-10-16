@@ -1,0 +1,865 @@
+openapi: 3.0.3
+info:
+  title: Projeto Questões API
+  version: 0.2.0
+paths:
+  /api/schema/:
+    get:
+      operationId: schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - ckb
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - ms
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - ug
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - schema
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /api/v1/attempts/:
+    post:
+      operationId: v1_attempts_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SubmissionRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/SubmissionRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/SubmissionRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Correction'
+          description: ''
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Correction'
+          description: ''
+        '409':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+  /api/v1/documents/:
+    get:
+      operationId: v1_documents_list
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Document'
+          description: ''
+  /api/v1/login/:
+    post:
+      operationId: v1_login_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/LoginRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+          description: ''
+        '400':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+        '429':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+  /api/v1/logout/:
+    post:
+      operationId: v1_logout_create
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+  /api/v1/overview/:
+    get:
+      operationId: v1_overview_retrieve
+      parameters:
+      - in: query
+        name: period
+        schema:
+          type: string
+          enum:
+          - '30'
+          - '7'
+          - all
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Overview'
+          description: ''
+  /api/v1/password/:
+    post:
+      operationId: v1_password_create
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PasswordRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PasswordRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PasswordRequest'
+        required: true
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Message'
+          description: ''
+  /api/v1/profile/:
+    get:
+      operationId: v1_profile_retrieve
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+    patch:
+      operationId: v1_profile_partial_update
+      tags:
+      - v1
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedProfileRequest'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedProfileRequest'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedProfileRequest'
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Profile'
+          description: ''
+  /api/v1/questions/:
+    get:
+      operationId: v1_questions_list
+      parameters:
+      - in: query
+        name: mode
+        schema:
+          type: string
+          enum:
+          - all
+          - errors
+          - unseen
+      - name: page
+        required: false
+        in: query
+        description: Um número de página dentro do conjunto de resultados paginado.
+        schema:
+          type: integer
+      - in: query
+        name: topic
+        schema:
+          type: string
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedQuestionList'
+          description: ''
+  /api/v1/session/:
+    get:
+      operationId: v1_session_retrieve
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Session'
+          description: ''
+  /api/v1/topics/:
+    get:
+      operationId: v1_topics_list
+      tags:
+      - v1
+      security:
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Topic'
+          description: ''
+components:
+  schemas:
+    Correction:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        request_id:
+          type: string
+          format: uuid
+        selected_choice:
+          type: integer
+          maximum: 3
+          minimum: 0
+        is_correct:
+          type: boolean
+        correct_choice:
+          type: integer
+        explanation:
+          type: string
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/ExplainedOption'
+        excerpts:
+          type: array
+          items:
+            $ref: '#/components/schemas/Excerpt'
+        created_at:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - correct_choice
+      - created_at
+      - excerpts
+      - explanation
+      - id
+      - is_correct
+      - options
+      - selected_choice
+    DailyStats:
+      type: object
+      properties:
+        date:
+          type: string
+          format: date
+        attempts:
+          type: integer
+        accuracy:
+          type: number
+          format: double
+          nullable: true
+      required:
+      - accuracy
+      - attempts
+      - date
+    Document:
+      type: object
+      properties:
+        slug:
+          type: string
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        title:
+          type: string
+          title: Título
+          maxLength: 200
+        filename:
+          type: string
+          maxLength: 200
+        version:
+          type: string
+          title: Versão
+          maxLength: 120
+        pages:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+        kind:
+          $ref: '#/components/schemas/KindEnum'
+        notes:
+          type: string
+      required:
+      - filename
+      - kind
+      - pages
+      - slug
+      - title
+      - version
+    Excerpt:
+      type: object
+      properties:
+        reference:
+          type: string
+          title: Artigo/referência
+          maxLength: 160
+        page:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 1
+          format: int64
+        text:
+          type: string
+          title: Trecho conferido
+        document:
+          $ref: '#/components/schemas/Document'
+      required:
+      - document
+      - page
+      - reference
+      - text
+    ExplainedOption:
+      type: object
+      properties:
+        text:
+          type: string
+        explanation:
+          type: string
+      required:
+      - explanation
+      - text
+    KindEnum:
+      enum:
+      - law
+      - reference
+      type: string
+      description: |-
+        * `law` - Fonte normativa
+        * `reference` - Prova de referência
+    LoginRequest:
+      type: object
+      properties:
+        username:
+          type: string
+          minLength: 1
+          maxLength: 150
+        password:
+          type: string
+          writeOnly: true
+          minLength: 1
+          maxLength: 256
+      required:
+      - password
+      - username
+    Message:
+      type: object
+      properties:
+        detail:
+          type: string
+      required:
+      - detail
+    ModeEnum:
+      enum:
+      - all
+      - unseen
+      - errors
+      type: string
+      description: |-
+        * `all` - all
+        * `unseen` - unseen
+        * `errors` - errors
+    Overview:
+      type: object
+      properties:
+        period:
+          type: string
+        total_attempts:
+          type: integer
+        correct:
+          type: integer
+        incorrect:
+          type: integer
+        accuracy:
+          type: number
+          format: double
+          nullable: true
+        first_accuracy:
+          type: number
+          format: double
+          nullable: true
+        answered_unique:
+          type: integer
+        available_questions:
+          type: integer
+        pending_errors:
+          type: integer
+        today_attempts:
+          type: integer
+        daily_minutes:
+          type: integer
+        topics:
+          type: array
+          items:
+            $ref: '#/components/schemas/TopicStats'
+        daily:
+          type: array
+          items:
+            $ref: '#/components/schemas/DailyStats'
+        recommendation:
+          allOf:
+          - $ref: '#/components/schemas/Recommendation'
+          nullable: true
+      required:
+      - accuracy
+      - answered_unique
+      - available_questions
+      - correct
+      - daily
+      - daily_minutes
+      - first_accuracy
+      - incorrect
+      - pending_errors
+      - period
+      - recommendation
+      - today_attempts
+      - topics
+      - total_attempts
+    PaginatedQuestionList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Question'
+    PasswordRequest:
+      type: object
+      properties:
+        current_password:
+          type: string
+          writeOnly: true
+          minLength: 1
+          maxLength: 256
+        new_password:
+          type: string
+          writeOnly: true
+          minLength: 1
+          maxLength: 256
+      required:
+      - current_password
+      - new_password
+    PatchedProfileRequest:
+      type: object
+      properties:
+        daily_minutes:
+          type: integer
+          maximum: 120
+          minimum: 10
+    Profile:
+      type: object
+      properties:
+        daily_minutes:
+          type: integer
+          maximum: 120
+          minimum: 10
+    PublicOption:
+      type: object
+      properties:
+        text:
+          type: string
+      required:
+      - text
+    Question:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        key:
+          type: string
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        revision:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+          default: 1
+        topic:
+          $ref: '#/components/schemas/Topic'
+        prompt:
+          type: string
+          title: Enunciado
+        options:
+          type: array
+          items:
+            $ref: '#/components/schemas/PublicOption'
+          readOnly: true
+        style:
+          $ref: '#/components/schemas/StyleEnum'
+        last_correct:
+          type: boolean
+          readOnly: true
+          nullable: true
+        source_label:
+          type: string
+          readOnly: true
+      required:
+      - id
+      - key
+      - last_correct
+      - options
+      - prompt
+      - source_label
+      - topic
+    Recommendation:
+      type: object
+      properties:
+        topic_slug:
+          type: string
+        topic_name:
+          type: string
+        mode:
+          $ref: '#/components/schemas/ModeEnum'
+        reason:
+          type: string
+      required:
+      - mode
+      - reason
+      - topic_name
+      - topic_slug
+    Session:
+      type: object
+      properties:
+        user:
+          allOf:
+          - $ref: '#/components/schemas/User'
+          nullable: true
+        csrf_token:
+          type: string
+      required:
+      - csrf_token
+      - user
+    StyleEnum:
+      enum:
+      - literal
+      - case
+      - comparison
+      type: string
+      description: |-
+        * `literal` - Texto da lei
+        * `case` - Situação prática
+        * `comparison` - Comparação de regras
+    SubmissionRequest:
+      type: object
+      properties:
+        question_id:
+          type: integer
+          minimum: 1
+        selected_choice:
+          type: integer
+          maximum: 3
+          minimum: 0
+        request_id:
+          type: string
+          format: uuid
+      required:
+      - question_id
+      - request_id
+      - selected_choice
+    Topic:
+      type: object
+      properties:
+        slug:
+          type: string
+          maxLength: 50
+          pattern: ^[-a-zA-Z0-9_]+$
+        name:
+          type: string
+          title: Nome
+          maxLength: 160
+        discipline:
+          type: string
+        position:
+          type: integer
+          maximum: 9223372036854775807
+          minimum: 0
+          format: int64
+      required:
+      - discipline
+      - name
+      - slug
+    TopicStats:
+      type: object
+      properties:
+        slug:
+          type: string
+        name:
+          type: string
+        position:
+          type: integer
+        available:
+          type: integer
+        answered:
+          type: integer
+        attempts:
+          type: integer
+        accuracy:
+          type: number
+          format: double
+          nullable: true
+        pending_errors:
+          type: integer
+        insufficient_sample:
+          type: boolean
+      required:
+      - accuracy
+      - answered
+      - attempts
+      - available
+      - insufficient_sample
+      - name
+      - pending_errors
+      - position
+      - slug
+    User:
+      type: object
+      properties:
+        username:
+          type: string
+          title: Usuário
+          description: Obrigatório. 150 caracteres ou menos. Letras, números e @/./+/-/_
+            apenas.
+          pattern: ^[\w.@+-]+$
+          maxLength: 150
+        display_name:
+          type: string
+          readOnly: true
+        is_staff:
+          type: boolean
+          title: Membro da equipe
+          description: Indica que usuário consegue acessar este site de administração.
+      required:
+      - display_name
+      - username
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
